@@ -1,0 +1,72 @@
+{
+  "name": "gameteki-client",
+  "version": "1.0.0",
+  "description": "Base client library for the gameteki suite of game clients",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --colors",
+    "tdd": "jest --colors --watchAll",
+    "cover": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gameteki/Gameteki.Client.git"
+  },
+  "keywords": [
+    "gameteki",
+    "client",
+    "throneteki",
+    "keyteki",
+    "keyforge",
+    "game",
+    "of",
+    "thrones",
+    "got",
+    "agot"
+  ],
+  "author": "Stuart Walsh <stu@ipng.org.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gameteki/Gameteki.Client/issues"
+  },
+  "homepage": "https://github.com/Gameteki/Gameteki.Client#readme",
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./setuptests.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "@sentry/browser": "^5.6.2",
+    "babel-eslint": "^10.0.2",
+    "classnames": "^2.2.6",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "eslint": "^6.1.0",
+    "eslint-plugin-jest": "^22.15.1",
+    "eslint-plugin-react": "^7.14.3",
+    "jest": "^24.9.0",
+    "jquery": "^3.4.1",
+    "jquery-validation": "^1.19.1",
+    "jquery-validation-unobtrusive": "^3.2.11",
+    "prop-types": "^15.7.2",
+    "react": "^16.9.0",
+    "react-dnd": "^9.3.4",
+    "react-dnd-touch-backend": "^9.3.4",
+    "react-dom": "^16.9.0",
+    "react-hot-loader": "^4.12.11",
+    "react-redux": "^7.1.0",
+    "react-redux-toastr": "^7.5.1",
+    "redux": "^4.0.4",
+    "redux-mock-store": "^1.5.3",
+    "redux-thunk": "^2.3.0"
+  },
+  "dependencies": {}
+}
