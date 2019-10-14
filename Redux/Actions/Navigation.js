@@ -1,10 +1,11 @@
 import { Constants } from '.';
 
-export function navigate(path, search) {
+export function navigate(path, search = '', noHistory = false) {
     return {
         type: Constants.Navigation.Navigate,
         newPath: path,
-        search: search
+        search: search,
+        noHistory: noHistory
     };
 }
 

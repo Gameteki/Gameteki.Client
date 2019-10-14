@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import * as actions from '../../ReduxActions';
+import * as actions from '../../Redux/Actions';
 
 const mapStateToProps = (state, ownProps) => {
     return {
