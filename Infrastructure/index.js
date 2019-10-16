@@ -1,18 +1,27 @@
 import $ from 'jquery';
-import 'jquery-validation';
-import 'jquery-validation-unobtrusive';
 import React from 'react';
-import * as Sentry from '@sentry/browser';
 import ReactDOM from 'react-dom';
-import { DragDropContext } from 'react-dnd';
-import { default as TouchBackend } from 'react-dnd-touch-backend';
-import { AppContainer } from 'react-hot-loader';
-import ReduxToastr from 'react-redux-toastr';
-import { Provider } from 'react-redux';
 
-import configureStore from './store';
-import { navigate } from '../Redux/Actions';
-import { ErrorBoundary } from '../Components/General/ErrorBoundary';
+import Auth from './Components/Auth';
+
+function checkLocalStorage() {
+    if(!localStorage) {
+        return false;
+    }
+
+    try {
+        localStorage.setItem('test', { test: 'test' });
+        let test = localStorage.getItem('test');
+
+        if(!test || !test.test) {
+            return false;
+        }
+    } catch {
+        return false;
+    }
+
+    return true;
+}
 
 export function initClient(options = {}) {
     $.validator.setDefaults({
@@ -36,8 +45,9 @@ export function initClient(options = {}) {
         store.dispatch(navigate(e.target.location.pathname));
     };
 
-    let DnDContainer;
+    let incompatibleBrowser = checkLocalStorage();
 
+    let DnDContainer;
     if(options.devMode) {
         DnDContainer = DragDropContext(TouchBackend({ enableMouseEvents: true }))(AppContainer);
 
@@ -53,7 +63,9 @@ export function initClient(options = {}) {
                             position='top-right'
                             transitionIn='fadeIn'
                             transitionOut='fadeOut' />
-                        <Application />
+                            <Auth />
+                        { incompatibleBrowser && <AlertPanel type='error' message='This site requires the ability to store cookies and local site data to function.  Please enable these features to use the site, or upgrade your browser to one that provides these features.' /> }
+                        { !incompatibleBrowser && <Application /> }
                     </div>
                 </Provider>
             </DnDContainer>, document.getElementById('component'));
