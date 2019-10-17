@@ -109,59 +109,24 @@ class NavBar extends React.Component {
             );
         });
 
-        let className = 'glyphicon glyphicon-signal';
-        let toolTip = 'Lobby is';
-
+        let lobbyState = 'disconnected';
         if(this.props.lobbySocketConnected) {
-            className += ' text-success';
-            toolTip += ' connected';
+            lobbyState = 'connected';
         } else if(this.props.lobbySocketConnecting) {
-            className += ' text-primary';
-            toolTip += ' connecting';
-        } else {
-            className += ' text-danger';
-            toolTip += ' disconnected';
+            lobbyState = 'connecting';
         }
 
-        let lobbyStatus = (
-            <li>
-                <span className={ className } title={ t(toolTip) } />
-            </li>);
-
-        className = 'glyphicon glyphicon-signal';
-        toolTip = 'Game server is';
-        if(this.props.currentGame) {
-            if(this.props.gameConnected) {
-                className += ' text-success';
-                toolTip += ' connected';
-            } else if(this.props.gameConnecting) {
-                className += ' text-primary';
-                toolTip += ' connecting';
-            } else {
-                className += ' text-danger';
-                toolTip += ' disconnected';
-            }
-        } else {
-            toolTip += ' not needed at this time';
+        let nodeState = 'disconnected';
+        if(this.props.gameConnected) {
+            nodeState = 'connected';
+        } else if(this.props.gameConnecting) {
+            nodeState = 'connecting';
         }
-
-        let gameStatus = (
-            <li>
-                <span className={ className } title={ t(toolTip) } />
-            </li>);
 
         return (
             <nav className='navbar navbar-inverse navbar-fixed-top navbar-sm'>
                 <div className='container'>
-                    <div className='navbar-header'>
-                        <button className='navbar-toggle collapsed' type='button' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar'>
-                            <span className='sr-only'>Toggle Navigation</span>
-                            <span className='icon-bar' />
-                            <span className='icon-bar' />
-                            <span className='icon-bar' />
-                        </button>
-                        <Link href='/' className='navbar-brand'>{ this.props.title }</Link>
-                    </div>
+                    <NavHeader title={ this.props.title } />
                     <div id='navbar' className='collapse navbar-collapse'>
                         <ul className='nav navbar-nav'>
                             { leftMenuToRender }
@@ -169,8 +134,8 @@ class NavBar extends React.Component {
                         <ul className='nav navbar-nav navbar-right'>
                             { contextMenu }
                             { numGames }
-                            { lobbyStatus }
-                            { gameStatus }
+                            <ConnectionIndicator inUse connectionType='Lobby' connectionState={ lobbyState } />
+                            <ConnectionIndicator inUse={ this.props.currentGame } connectionType='Game Node' connectionState={ nodeState } />
                             { rightMenuToRender }
                             <LanguageSelector />
                         </ul>
