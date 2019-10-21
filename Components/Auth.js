@@ -3,8 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-class Auth extends React.Component {
-    componentWillMount() {
+import { tryParseJSON } from '../util';
+import * as actions from '../../Redux/Actions';
+
+export class Auth extends React.Component {
+    componentDidMount() {
         let token = localStorage.getItem('token');
         let refreshToken = localStorage.getItem('refreshToken');
         if(refreshToken) {

@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
-import Link from '../General/Link';
-import Avatar from '../General/Avatar';
 import * as actions from '../../actions';
 import menus from '../../menus';
 import LanguageSelector from './LanguageSelector';
 import NavHeader from './NavHeader';
+import MenuItem from './MenuItem';
 import ConnectionIndicator from './ConnectionIndicator';
+import ProfileMenuItem from './ProfileMenuItem';
 
 class NavBar extends React.Component {
     constructor(props) {
@@ -28,48 +29,6 @@ class NavBar extends React.Component {
         this.setState({
             showPopup: undefined
         });
-    }
-
-    renderMenuItem(menuItem) {
-        let t = this.props.t;
-        let active = menuItem.path === this.props.path ? 'active' : '';
-
-        if(menuItem.childItems) {
-            let className = 'dropdown';
-
-            if(menuItem.childItems.some(item => {
-                return item.path === this.props.path;
-            })) {
-                className += ' active';
-            }
-
-            var childItems = menuItem.childItems.reduce((items, item) => {
-                if(item.permission && (!this.props.user || !this.props.user.permissions[item.permission])) {
-                    return items;
-                }
-
-                return items.concat(<li key={ item.title }><Link href={ item.path }>{ t(item.title) }</Link></li>);
-            }, []);
-
-            if(childItems.length === 0) {
-                return null;
-            }
-
-            return (
-                <li key={ menuItem.title } className={ className }>
-                    <a href='#' className='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
-                        { menuItem.showProfilePicture && this.props.user ?
-                            <Avatar username={ this.props.user.username } /> :
-                            null }
-                        { menuItem.showProfilePicture && this.props.user ? this.props.user.username : t(menuItem.title) }<span className='caret' />
-                    </a>
-                    <ul className='dropdown-menu'>
-                        { childItems }
-                    </ul>
-                </li>);
-        }
-
-        return <li key={ menuItem.title } className={ active }><Link href={ menuItem.path }>{ t(menuItem.title) }</Link></li>;
     }
 
     getConnectionState(state) {
@@ -96,14 +55,44 @@ class NavBar extends React.Component {
                 return false;
             }
 
+            if(!type) {
+                return true;
+            }
+
             return menuItem.position === type;
         });
     }
 
     getMenu(menuItems) {
-        for(let menuItem of menuItems) {
+        let menu = [];
+        const t = this.props.t;
 
+        for(let menuItem of menuItems) {
+            let className = classNames({
+                'active': menuItem.path === this.props.path || (menuItem.childItems && menuItem.childItems.some(ci => ci.path === this.props.path)),
+                'dropdown': menuItem.childItems && menuItem.childItems.length > 0
+            });
+
+            let childItems = null;
+            if(menuItem.childItems && menuItem.childItems.length > 0) {
+                childItems = this.getMenu(this.filterMenu(menuItem.childItems));
+            }
+
+            let props = {
+                key: menuItem.title,
+                title: t(menuItem.title),
+                className: className,
+                path: menuItem.path
+            };
+
+            if(menuItem.showProfilePicture) {
+                menu.push(<ProfileMenuItem { ...props }>{ childItems }</ProfileMenuItem>);
+            } else {
+                menu.push(<MenuItem { ...props }>{ childItems }</MenuItem>);
+            }
         }
+
+        return menu;
     }
 
     render() {

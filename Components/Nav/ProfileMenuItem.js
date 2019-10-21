@@ -11,9 +11,9 @@ class ProfileMenuItem extends React.Component {
                     <Avatar username={ this.props.username } />
                     { this.props.username }<span className='caret' />
                 </a>
-                <ul className='dropdown-menu'>
+                { this.props.children && <ul className='dropdown-menu'>
                     { this.props.children }
-                </ul>
+                </ul> }
             </li>);
     }
 }

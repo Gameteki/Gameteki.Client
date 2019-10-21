@@ -4,6 +4,7 @@
   "description": "Base client library for the gameteki suite of game clients",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint .",
     "test": "jest --colors",
     "tdd": "jest --colors --watchAll",
     "cover": "jest --coverage"
@@ -45,12 +46,12 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "@sentry/browser": "^5.6.2",
-    "babel-eslint": "^10.0.2",
+    "babel-eslint": "^10.0.3",
     "classnames": "^2.2.6",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "^6.5.1",
-    "eslint-plugin-jest": "^22.15.1",
+    "eslint-plugin-jest": "^22.19.0",
     "eslint-plugin-react": "^7.16.0",
     "jest": "^24.9.0",
     "jquery": "^3.4.1",
